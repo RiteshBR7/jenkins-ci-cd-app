@@ -3,11 +3,6 @@ pipeline {
 
     stages {
         stage('Build Docker Image') {
-            steps {pipeline {
-    agent any
-
-    stages {
-        stage('Build Docker Image') {
             steps {
                 script {
                     docker.build("flask-app")
@@ -31,31 +26,6 @@ pipeline {
             steps {
                 script {
                     bat 'curl -f http://localhost:5000 || echo App not responding yet'
-                }
-            }
-        }
-    }
-}
-
-                script {
-                    docker.build("flask-app")
-                }
-            }
-        }
-
-        stage('Run Docker Container') {
-            steps {
-                script {
-                    sh "docker rm -f flask-app-container || true"
-                    sh "docker run -d --name flask-app-container -p 5000:5000 flask-app"
-                }
-            }
-        }
-
-        stage('Test') {
-            steps {
-                script {
-                    sh 'curl -f http://localhost:5000 || echo "App not responding yet"'
                 }
             }
         }
